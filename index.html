@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edifica Inmobiliaria — Portal Agente</title>
+<!-- Inter font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- CSS -->
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/views.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 1: LOGIN
+══════════════════════════════════════════ -->
+<div id="screen-login" class="screen active">
+  <div class="login-bg-pattern"></div>
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="assets/LOGO.png" alt="Edifica Inmobiliaria" class="login-logo-img">
+      <p>Portal de Agente</p>
+    </div>
+
+    <p style="font-size:12px;color:var(--c-muted);margin-bottom:14px;">Seleccioná tu usuario para continuar:</p>
+    <div class="login-agents">
+      <div class="agent-chip selected" onclick="selectAgent(this,'Martina Luzenti','MAT. 3421')">
+        <span>Martina Luzenti</span>
+        <small>Agente</small>
+      </div>
+      <div class="agent-chip" onclick="selectAgent(this,'Sabrina Duarte','MAT. 1892')">
+        <span>Sabrina Duarte</span>
+        <small>Agente</small>
+      </div>
+      <div class="agent-chip" onclick="selectAgent(this,'Matías Toledo','MAT. 2210')">
+        <span>Matías Toledo</span>
+        <small>Agente</small>
+      </div>
+      <div class="agent-chip" onclick="selectAgent(this,'Laila Orellano','MAT. 2103')">
+        <span>Laila Orellano</span>
+        <small>Agente</small>
+      </div>
+    </div>
+
+    <div class="login-form-group">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••" value="demo1234">
+    </div>
+
+    <button class="btn-login" onclick="doLogin()">Ingresar al Portal</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 2: PORTAL
+══════════════════════════════════════════ -->
+<div id="screen-portal" class="screen">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- LOGO -->
+    <div class="sidebar-logo">
+      <img src="assets/logoed.jpg" alt="Edifica Inmobiliaria" class="sidebar-logo-img">
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-label">General</div>
+      <button class="nav-item active" onclick="showView('dashboard',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        Resumen
+      </button>
+
+      <div class="nav-label">Gestión</div>
+      <button class="nav-item" onclick="showView('propiedades',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+        Mis Propiedades
+      </button>
+      <button class="nav-item" onclick="showView('reservas',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        Reservas
+      </button>
+
+      <!-- LINK A SITIO WEB -->
+      <div class="nav-label">Externo</div>
+      <a class="nav-item external-link" href="https://www.edificaconstructorainmobiliaria.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+        </svg>
+        Inicio Web
+        <svg class="ext-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+          <polyline points="15,3 21,3 21,9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </nav>
+
+    <!-- sidebar-user oculto (se mueve al topbar) -->
+    <div class="sidebar-user"></div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbar-title">Resumen</div>
+        <div class="topbar-sub"   id="topbar-sub">Bienvenida de vuelta</div>
+      </div>
+
+      <!-- DERECHA: fecha + perfil del agente + logout -->
+      <div class="topbar-right">
+        <div class="topbar-date" id="topbar-date"></div>
+
+        <div class="topbar-agent">
+          <div class="topbar-agent-info">
+            <strong id="topbar-agent-name">Martina Luzenti</strong>
+            <span id="topbar-agent-mat">MAT. 3421</span>
+          </div>
+          <!-- Avatar: foto si se subió, iniciales si no -->
+          <div class="topbar-avatar" id="topbar-avatar">
+            ML
+          </div>
+        </div>
+
+        <button class="btn-logout-top" onclick="doLogout()" title="Cerrar sesión">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+            <polyline points="16,17 21,12 16,7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ══ VIEW: DASHBOARD ══ -->
+      <div id="view-dashboard" class="view active">
+        <div class="dash-welcome">
+          <h2>Hola, <span id="dash-agente">Martina</span> 👋</h2>
+          <p>Resumen de actividad del mes.</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card green">
+            <div class="stat-label">Cartera</div>
+            <div class="stat-value" id="stat-activas">—</div>
+            <div class="stat-sub">propiedades en cartera</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-label">Cierres</div>
+            <div class="stat-value" id="stat-vendidas">—</div>
+            <div class="stat-sub">este mes</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-label">Reservas</div>
+            <div class="stat-value" id="stat-reservas-count">—</div>
+            <div class="stat-sub">documentos generados</div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3>Propiedades Recientes</h3>
+              <span style="font-size:12px;color:var(--c-muted);cursor:pointer;"
+                    onclick="showView('propiedades',null)">Ver todas →</span>
+            </div>
+            <div class="dash-card-body" id="dash-props-mini"></div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3>Últimas Reservas</h3>
+              <span style="font-size:12px;color:var(--c-muted);cursor:pointer;"
+                    onclick="showView('reservas',null)">Ver todas →</span>
+            </div>
+            <div class="dash-card-body" id="dash-res-mini"></div>
+          </div>
+        </div>
+      </div><!-- /view-dashboard -->
+
+      <!-- ══ VIEW: PROPIEDADES ══ -->
+      <div id="view-propiedades" class="view">
+        <div class="section-header">
+          <div>
+            <h2>Propiedades</h2>
+            <p style="font-size:13px;color:var(--c-muted);margin-top:2px;">Gestión de cartera</p>
+          </div>
+        </div>
+        <div class="props-grid" id="props-grid"></div>
+      </div>
+
+      <!-- ══ VIEW: RESERVAS ══ -->
+      <div id="view-reservas" class="view">
+
+        <div id="reservas-list-view">
+          <div class="section-header">
+            <div>
+              <h2>Reservas</h2>
+              <p style="font-size:13px;color:var(--c-muted);margin-top:2px;">Documentos de reserva generados</p>
+            </div>
+            <button class="btn-primary" onclick="showReservaForm(null)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Nueva Reserva
+            </button>
+          </div>
+          <div class="reservas-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Oferente</th>
+                  <th>Inmueble</th>
+                  <th>Monto</th>
+                  <th>Estado</th>
+                  <th>Fecha</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="reservas-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="reservas-form-view" style="display:none;">
+          <div class="form-back" onclick="backToReservasList()">← Volver a Reservas</div>
+          <div class="form-header">
+            <div>
+              <h2 id="form-reserva-title">Nueva Reserva</h2>
+              <p>Completá los datos para generar el documento de reserva</p>
+            </div>
+          </div>
+
+          <div class="prop-selector-card">
+            <h3>⚡ Cargar desde propiedad existente</h3>
+            <div class="prop-selector-row">
+              <div class="field-group">
+                <label>Seleccionar propiedad</label>
+                <select id="prop-selector">
+                  <option value="">— Seleccionar propiedad del agente —</option>
+                </select>
+              </div>
+              <button class="btn-load-prop" onclick="cargarDesdePropiedad()">CARGAR DATOS</button>
+            </div>
+          </div>
+
+          <div class="form-sections">
+
+            <div class="form-section">
+              <div class="form-section-header"><h3>1. Datos del Oferente</h3></div>
+              <div class="form-section-body">
+                <div class="form-grid-3">
+                  <div class="field-group"><label>Nombre</label><input id="rof_nombre" type="text" placeholder="Nombre/s"></div>
+                  <div class="field-group"><label>Apellido</label><input id="rof_apellido" type="text" placeholder="Apellido/s"></div>
+                  <div class="field-group"><label>DNI</label><input id="rof_dni" type="text" placeholder="XX.XXX.XXX"></div>
+                </div>
+                <div class="form-grid-3" style="margin-top:12px">
+                  <div class="field-group"><label>Domicilio</label><input id="rof_domicilio" type="text" placeholder="Calle, Nro, Ciudad"></div>
+                  <div class="field-group"><label>Teléfono</label><input id="rof_tel" type="text" placeholder="+54 351 000 0000"></div>
+                  <div class="field-group"><label>Email</label><input id="rof_email" type="email" placeholder="email@ejemplo.com"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-header"><h3>2. Datos del Inmueble</h3></div>
+              <div class="form-section-body">
+                <div class="form-grid-3">
+                  <div class="field-group" style="grid-column:span 2"><label>Dirección</label><input id="rin_direccion" type="text"></div>
+                  <div class="field-group"><label>Localidad</label><input id="rin_localidad" type="text"></div>
+                </div>
+                <div class="form-grid-3" style="margin-top:12px">
+                  <div class="field-group"><label>Cuenta Rentas</label><input id="rin_rentas" type="text"></div>
+                  <div class="field-group"><label>Matrícula</label><input id="rin_matricula" type="text"></div>
+                  <div class="field-group"><label>Nomenclatura Catastral</label><input id="rin_nomenclatura" type="text"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-header"><h3>3. Datos Técnicos</h3></div>
+              <div class="form-section-body">
+                <div class="form-grid-3">
+                  <div class="field-group"><label>Sup. Terreno</label><input id="rin_sup_terreno" type="text" placeholder="m²"></div>
+                  <div class="field-group"><label>Sup. Cubierta</label><input id="rin_sup_cubierta" type="text" placeholder="m²"></div>
+                  <div class="field-group"><label>Estado General</label><input id="rin_estado" type="text" placeholder="Muy Bueno / Bueno"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-header"><h3>4. Condiciones de Reserva</h3></div>
+              <div class="form-section-body">
+                <div class="form-grid-3">
+                  <div class="field-group"><label>Precio (Números)</label><input id="rp_precio_num" type="text" placeholder="USD 0.000"></div>
+                  <div class="field-group"><label>Precio (Letras)</label><input id="rp_precio_letras" type="text"></div>
+                  <div class="field-group"><label>Plazo / Escritura</label><input id="rp_plazo_escritura" type="text" placeholder="DD/MM/AAAA"></div>
+                </div>
+                <div class="form-grid-3" style="margin-top:12px">
+                  <div class="field-group">
+                    <label>Tipo Doc. Reserva</label>
+                    <select id="rres_tipo_doc">
+                      <option value="EFECTIVO">EFECTIVO</option>
+                      <option value="PAGARÉ">PAGARÉ</option>
+                    </select>
+                  </div>
+                  <div class="field-group"><label>Monto Reserva (Núm.)</label><input id="rres_monto_num" type="text"></div>
+                  <div class="field-group"><label>Monto Reserva (Letras)</label><input id="rres_monto_letras" type="text"></div>
+                </div>
+                <div class="form-grid-2" style="margin-top:12px">
+                  <div class="field-group"><label>Lugar de Firma</label><input id="rp_lugar_firma" type="text" placeholder="Ciudad de Córdoba"></div>
+                  <div class="field-group"><label>Escribanía</label><input id="rp_escribania" type="text"></div>
+                </div>
+                <div class="field-group" style="margin-top:12px">
+                  <label>Observaciones</label>
+                  <textarea id="rp_comentarios_extra" rows="3" placeholder="Condiciones adicionales, aclaraciones..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-header"><h3>5. Datos del Vendedor / Propietario</h3></div>
+              <div class="form-section-body">
+                <div class="form-grid-2">
+                  <div class="field-group"><label>Nombre y Apellido</label><input id="rv_nombre" type="text"></div>
+                  <div class="field-group"><label>DNI</label><input id="rv_dni" type="text"></div>
+                </div>
+                <div class="field-group" style="margin-top:12px">
+                  <label>Domicilio Especial</label>
+                  <input id="rv_domicilio" type="text">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-header">
+                <h3>6. Anexo I — Crédito Hipotecario</h3>
+                <label class="toggle">
+                  <input type="checkbox" id="ra_usa_credito" onchange="toggleAnexo()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div id="anexo-body" class="form-section-body" style="display:none">
+                <div class="form-grid-2">
+                  <div class="field-group"><label>% Dependiente del Crédito</label><input id="ra_porcentaje" type="text" placeholder="%"></div>
+                  <div class="field-group">
+                    <label>¿Cuenta con dinero extra?</label>
+                    <select id="ra_monto_extra">
+                      <option value="">Seleccionar</option>
+                      <option value="SI">SI</option>
+                      <option value="NO">NO</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /form-sections -->
+
+          <div class="form-actions">
+            <button class="btn-secondary" onclick="backToReservasList()">Cancelar</button>
+            <button class="btn-save"      onclick="guardarReserva(false)">Guardar Reserva</button>
+            <button class="btn-pdf"       onclick="guardarReserva(true)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14,2 14,8 20,8"/>
+              </svg>
+              Guardar y Generar PDF
+            </button>
+          </div>
+
+        </div><!-- /reservas-form-view -->
+      </div><!-- /view-reservas -->
+
+    </div><!-- /content -->
+  </main>
+</div><!-- /screen-portal -->
+
+<!-- ══════════════════════════════════════════
+     MODAL PDF
+══════════════════════════════════════════ -->
+<div id="modal-pdf" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>📄 Vista Previa — Reserva</h3>
+      <button class="modal-close" onclick="closePdf()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-pdf" onclick="window.print()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6,9 6,2 18,2 18,9"/>
+          <path d="M6,18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Imprimir / Guardar PDF
+      </button>
+      <button class="btn-secondary" onclick="closePdf()">Cerrar</button>
+    </div>
+
+    <div id="pdf-content">
+      <div class="pdf-page" id="pdf-page-1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+          <div>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:2px;">DOCUMENTO INTERNO</div>
+            <div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:700;color:#111;">RESERVA DE INMUEBLE</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-weight:700;font-size:14px;">EDIFICA</div>
+            <div style="font-size:10px;color:#666;">Constructora Inmobiliaria</div>
+            <div style="font-size:10px;color:#666;">Córdoba, Argentina</div>
+          </div>
+        </div>
+        <div style="border-top:2px solid #111;border-bottom:1px solid #ccc;padding:6px 0;margin-bottom:20px;display:flex;justify-content:space-between;">
+          <span style="font-size:11px;color:#555;">Fecha: <strong id="pdf-fecha" style="color:#111;"></strong></span>
+          <span style="font-size:11px;color:#555;">Agente: <strong id="pdf-agente" style="color:#111;"></strong></span>
+        </div>
+
+        <div class="pdf-section">
+          <div class="pdf-section-title">1. OFERENTE (COMPRADOR)</div>
+          <div class="pdf-grid-2">
+            <div class="pdf-field"><div class="pdf-field-label">Nombre y Apellido</div><div class="pdf-field-value" id="pdf-oferente-nombre">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">DNI</div><div class="pdf-field-value" id="pdf-oferente-dni">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Domicilio</div><div class="pdf-field-value" id="pdf-oferente-domicilio">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Teléfono / Email</div><div class="pdf-field-value" id="pdf-oferente-contacto">—</div></div>
+          </div>
+        </div>
+
+        <div class="pdf-section">
+          <div class="pdf-section-title">2. INMUEBLE OBJETO DE RESERVA</div>
+          <div class="pdf-grid-2">
+            <div class="pdf-field"><div class="pdf-field-label">Dirección</div><div class="pdf-field-value" id="pdf-inmueble-dir">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Localidad</div><div class="pdf-field-value" id="pdf-inmueble-loc">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Matrícula</div><div class="pdf-field-value" id="pdf-inmueble-mat">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Nomenclatura Catastral</div><div class="pdf-field-value" id="pdf-inmueble-nom">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Sup. Terreno</div><div class="pdf-field-value" id="pdf-inmueble-ter">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Sup. Cubierta</div><div class="pdf-field-value" id="pdf-inmueble-cub">—</div></div>
+          </div>
+        </div>
+
+        <div class="pdf-section">
+          <div class="pdf-section-title">3. CONDICIONES ECONÓMICAS</div>
+          <div class="pdf-grid-2">
+            <div class="pdf-field"><div class="pdf-field-label">Precio de Venta</div><div class="pdf-field-value" id="pdf-precio">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Precio en Letras</div><div class="pdf-field-value" id="pdf-precio-letras">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Monto de Reserva</div><div class="pdf-field-value" id="pdf-reserva-monto">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Tipo de Documento</div><div class="pdf-field-value" id="pdf-reserva-tipo">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Plazo / Escritura</div><div class="pdf-field-value" id="pdf-plazo">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Escribanía</div><div class="pdf-field-value" id="pdf-escribania">—</div></div>
+          </div>
+        </div>
+
+        <div class="pdf-section">
+          <div class="pdf-section-title">4. VENDEDOR / PROPIETARIO</div>
+          <div class="pdf-grid-2">
+            <div class="pdf-field"><div class="pdf-field-label">Nombre y Apellido</div><div class="pdf-field-value" id="pdf-vendedor-nombre">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">DNI</div><div class="pdf-field-value" id="pdf-vendedor-dni">—</div></div>
+            <div class="pdf-field"><div class="pdf-field-label">Domicilio Especial</div><div class="pdf-field-value" id="pdf-vendedor-dom">—</div></div>
+          </div>
+        </div>
+
+        <div class="pdf-section">
+          <div class="pdf-section-title">5. CLÁUSULAS GENERALES</div>
+          <div class="pdf-clausulas">
+            <p><strong>CLÁUSULA 1ª:</strong> El oferente entrega en concepto de seña y a cuenta de precio la suma indicada en los datos de reserva, en la forma de pago allí especificada.</p>
+            <p><strong>CLÁUSULA 2ª:</strong> El vendedor/propietario acepta la presente oferta de compra, comprometiéndose a la entrega del inmueble libre de todo gravamen en la fecha de escrituración pactada.</p>
+            <p><strong>CLÁUSULA 3ª:</strong> En caso de que el vendedor se arrepienta de la operación, deberá devolver al oferente el doble de la suma recibida en concepto de seña.</p>
+            <p><strong>CLÁUSULA 4ª:</strong> Los gastos de escrituración, impuesto de sellos y honorarios del escribano serán abonados de conformidad a los usos y costumbres de la plaza.</p>
+            <p><strong>CLÁUSULA 5ª:</strong> La intermediación de <strong id="pdf-clausula-agente">Edifica Inmobiliaria</strong> ha sido aceptada por ambas partes, quienes se obligan al pago de la comisión pactada.</p>
+          </div>
+          <div style="margin-top:10px;padding:8px 12px;background:#F0F2F5;border-radius:4px;font-size:11px;color:#666;">
+            <strong>Observaciones:</strong> <span id="pdf-obs">—</span>
+          </div>
+        </div>
+
+        <div class="pdf-firma-grid">
+          <div class="pdf-firma-box">
+            <div style="height:40px;"></div>
+            <div class="pdf-firma-line">Firma Oferente</div>
+            <div style="font-size:10px;color:#666;margin-top:3px;" id="pdf-firma-oferente">—</div>
+          </div>
+          <div class="pdf-firma-box">
+            <div style="height:40px;"></div>
+            <div class="pdf-firma-line">Firma Vendedor</div>
+            <div style="font-size:10px;color:#666;margin-top:3px;" id="pdf-firma-vendedor">—</div>
+          </div>
+          <div class="pdf-firma-box">
+            <div style="height:40px;"></div>
+            <div class="pdf-firma-line">Agente Inmobiliario</div>
+            <div style="font-size:10px;color:#666;margin-top:3px;" id="pdf-firma-agente">—</div>
+          </div>
+        </div>
+      </div><!-- /pdf-page-1 -->
+
+      <div class="pdf-page">
+        <div style="text-align:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #111;">
+          <div style="font-family:'Inter',sans-serif;font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:2px;">HOJA DE ACEPTACIÓN</div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">Reserva — <span id="pdf2-inmueble">—</span></div>
+        </div>
+        <div class="pdf-clausulas">
+          <p>Por la presente, el Sr./Sra. <strong id="pdf2-vendedor">—</strong>, en carácter de vendedor/propietario del inmueble ubicado en <strong id="pdf2-dir">—</strong>, <strong>ACEPTA</strong> la oferta de reserva formulada por <strong id="pdf2-oferente">—</strong> en los términos y condiciones indicados en la hoja principal de este documento.</p>
+          <p>El vendedor declara que el inmueble se encuentra libre de toda deuda, gravamen, hipoteca, inhibición o medida cautelar, y que se compromete a entregarlo en las condiciones pactadas al momento de la escrituración.</p>
+          <p>Lugar y fecha: <strong id="pdf2-lugfecha">—</strong></p>
+        </div>
+        <div class="pdf-firma-grid" style="margin-top:60px">
+          <div class="pdf-firma-box">
+            <div style="height:48px;"></div>
+            <div class="pdf-firma-line">Firma del Vendedor</div>
+            <div style="font-size:10px;color:#666;margin-top:3px;" id="pdf2-firma-vendedor">—</div>
+          </div>
+          <div class="pdf-firma-box" style="grid-column:3;">
+            <div style="height:48px;"></div>
+            <div class="pdf-firma-line">Agente Inmobiliario</div>
+            <div style="font-size:10px;color:#666;margin-top:3px;" id="pdf2-firma-agente">—</div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /pdf-content -->
+  </div>
+</div><!-- /modal-pdf -->
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- JS -->
+<script src="js/utils.js"></script>
+<script src="js/data.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/propiedades.js"></script>
+<script src="js/reservas.js"></script>
+<script src="js/pdf.js"></script>
+
+
+</body>
+</html>
