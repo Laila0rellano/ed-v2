@@ -405,7 +405,140 @@
 
         </div><!-- /reservas-form-view -->
       </div><!-- /view-reservas -->
+<div id="view-clientes" class="view">
 
+  <!-- Lista de clientes -->
+  <div id="clientes-list-view">
+    <div class="section-header">
+      <div>
+        <h2>Clientes</h2>
+        <p style="font-size:13px;color:var(--c-muted);margin-top:2px;">Cartera de compradores y vendedores</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <input id="clientes-search" type="text" placeholder="🔍  Buscar por nombre, DNI o email…"
+          oninput="filtrarClientes()"
+          style="padding:9px 14px;border:2px solid var(--c-border);border-radius:8px;
+                 font-family:var(--font-body);font-size:13px;outline:none;
+                 background:var(--c-bg);width:260px;transition:border-color .2s;">
+        <button class="btn-primary" onclick="abrirFormCliente(null)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Nuevo Cliente
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtros por tipo -->
+    <div class="clientes-filtros">
+      <button class="filtro-btn active" onclick="setFiltroTipo('todos', this)">Todos</button>
+      <button class="filtro-btn" onclick="setFiltroTipo('comprador', this)">Compradores</button>
+      <button class="filtro-btn" onclick="setFiltroTipo('vendedor', this)">Vendedores</button>
+      <button class="filtro-btn" onclick="setFiltroTipo('ambos', this)">Ambos</button>
+    </div>
+
+    <!-- Grid de tarjetas -->
+    <div class="clientes-grid" id="clientes-grid"></div>
+  </div>
+
+  <!-- Detalle / Ficha del cliente -->
+  <div id="clientes-detalle-view" style="display:none;">
+    <div class="form-back" onclick="volverListaClientes()">← Volver a Clientes</div>
+
+    <div class="cliente-ficha-header">
+      <div class="cliente-ficha-avatar" id="detalle-avatar">—</div>
+      <div>
+        <h2 id="detalle-nombre">—</h2>
+        <div style="display:flex;gap:8px;margin-top:6px;" id="detalle-badges"></div>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:8px;">
+        <button class="btn-secondary" onclick="editarClienteActual()">✏️ Editar</button>
+        <button class="btn-save"      onclick="cerrarDetalleCliente()">Cerrar ficha</button>
+      </div>
+    </div>
+
+    <div class="cliente-ficha-grid">
+      <!-- Col izquierda: datos personales -->
+      <div class="cliente-ficha-col">
+        <div class="dash-card">
+          <div class="dash-card-header"><h3>Datos Personales</h3></div>
+          <div class="dash-card-body">
+            <div class="ficha-row"><span class="ficha-label">DNI</span><span id="fd-dni">—</span></div>
+            <div class="ficha-row"><span class="ficha-label">Domicilio</span><span id="fd-domicilio">—</span></div>
+            <div class="ficha-row"><span class="ficha-label">Teléfono</span><span id="fd-tel">—</span></div>
+            <div class="ficha-row"><span class="ficha-label">Email</span><span id="fd-email">—</span></div>
+            <div class="ficha-row"><span class="ficha-label">Tipo</span><span id="fd-tipo">—</span></div>
+            <div class="ficha-row"><span class="ficha-label">Ingresó</span><span id="fd-fecha">—</span></div>
+            <div class="ficha-row"><span class="ficha-label">Notas</span><span id="fd-notas" style="color:var(--c-mid);font-style:italic;">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col derecha: operaciones vinculadas -->
+      <div class="cliente-ficha-col">
+        <div class="dash-card">
+          <div class="dash-card-header"><h3>Operaciones Vinculadas</h3></div>
+          <div class="dash-card-body" id="fd-operaciones">
+            <p style="font-size:13px;color:var(--c-muted);">Sin operaciones registradas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario nuevo/editar cliente -->
+  <div id="clientes-form-view" style="display:none;">
+    <div class="form-back" onclick="cancelarFormCliente()">← Cancelar</div>
+    <div class="form-header">
+      <div>
+        <h2 id="form-cliente-title">Nuevo Cliente</h2>
+        <p>Completá los datos del cliente</p>
+      </div>
+    </div>
+
+    <div class="form-sections">
+      <div class="form-section">
+        <div class="form-section-header"><h3>Datos Personales</h3></div>
+        <div class="form-section-body">
+          <div class="form-grid-3">
+            <div class="field-group"><label>Nombre</label><input id="cl_nombre" type="text" placeholder="Nombre/s"></div>
+            <div class="field-group"><label>Apellido</label><input id="cl_apellido" type="text" placeholder="Apellido/s"></div>
+            <div class="field-group"><label>DNI</label><input id="cl_dni" type="text" placeholder="XX.XXX.XXX"></div>
+          </div>
+          <div class="form-grid-3" style="margin-top:12px">
+            <div class="field-group"><label>Teléfono</label><input id="cl_tel" type="text" placeholder="+54 351 000 0000"></div>
+            <div class="field-group"><label>Email</label><input id="cl_email" type="email" placeholder="email@ejemplo.com"></div>
+            <div class="field-group">
+              <label>Tipo de Cliente</label>
+              <select id="cl_tipo">
+                <option value="comprador">Comprador</option>
+                <option value="vendedor">Vendedor</option>
+                <option value="ambos">Ambos</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid-2" style="margin-top:12px">
+            <div class="field-group"><label>Domicilio</label><input id="cl_domicilio" type="text" placeholder="Calle, Nro, Ciudad"></div>
+            <div class="field-group">
+              <label>Presupuesto / Rango</label>
+              <input id="cl_presupuesto" type="text" placeholder="ej. USD 80.000 – 120.000">
+            </div>
+          </div>
+          <div class="field-group" style="margin-top:12px">
+            <label>Notas / Preferencias</label>
+            <textarea id="cl_notas" rows="3" placeholder="Zona de interés, cantidad de ambientes, observaciones…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-secondary" onclick="cancelarFormCliente()">Cancelar</button>
+      <button class="btn-save"      onclick="guardarCliente()">Guardar Cliente</button>
+    </div>
+  </div>
+
+</div><!-- /view-clientes -->
     </div><!-- /content -->
   </main>
 </div><!-- /screen-portal -->
