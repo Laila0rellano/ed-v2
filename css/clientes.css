@@ -1,0 +1,174 @@
+/* ══════════════════════════════════════════
+   CLIENTES — Estilos
+   Agregá <link rel="stylesheet" href="css/clientes.css">
+   en el <head> de index.html
+══════════════════════════════════════════ */
+
+/* ─── Filtros tipo ─── */
+.clientes-filtros {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.filtro-btn {
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 2px solid var(--c-border);
+  background: #fff;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c-mid);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.filtro-btn:hover  { border-color: var(--c-dark); color: var(--c-dark); }
+.filtro-btn.active { background: var(--c-dark); color: #fff; border-color: var(--c-dark); }
+
+/* ─── Grid de tarjetas ─── */
+.clientes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* ─── Tarjeta cliente ─── */
+.cliente-card {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--c-border);
+  overflow: hidden;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+.cliente-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.cliente-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 16px 12px;
+}
+
+.cliente-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--c-dark);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cliente-nombre {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cliente-sub {
+  font-size: 12px;
+  color: var(--c-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cliente-card-body {
+  padding: 0 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cliente-dato {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--c-mid);
+}
+.cliente-dato svg { flex-shrink: 0; opacity: .5; }
+
+.cliente-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid var(--c-border);
+  background: var(--c-bg);
+}
+
+/* ─── Ficha detalle ─── */
+.cliente-ficha-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+
+.cliente-ficha-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--c-dark);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cliente-ficha-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.cliente-ficha-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 20px;
+}
+
+.cliente-ficha-col { display: flex; flex-direction: column; gap: 16px; }
+
+/* ─── Filas de datos en ficha ─── */
+.ficha-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--c-border);
+  font-size: 13px;
+}
+.ficha-row:last-child { border-bottom: none; }
+
+.ficha-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--c-muted);
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+/* ─── Buscador focus ─── */
+#clientes-search:focus {
+  border-color: var(--c-accent);
+  background: #fff;
+  outline: none;
+}
