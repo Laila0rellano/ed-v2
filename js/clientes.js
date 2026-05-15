@@ -1,10 +1,3 @@
-/* ═══════════════════════════════════════
-   CLIENTES — Data y funciones
-   Agregá <script src="js/clientes.js"></script>
-   en index.html, antes de </body>
-═══════════════════════════════════════ */
-
-/* ─── Data ─── */
 let clientes = [
   {
     id: 1,
